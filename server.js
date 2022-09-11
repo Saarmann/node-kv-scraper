@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 import { google } from 'googleapis';
 
-export async function getServerSideProps() {
+export async function readFromGoogleSheets() {
 
     const auth = await new google.auth.GoogleAuth({
         keyFile: 'credentials.json',
@@ -18,12 +18,18 @@ export async function getServerSideProps() {
     const getRows = await googleSheets.spreadsheets.values.get({
         auth,
         spreadsheetId,
-        range: "Sheet1!A1:D13",
+        range: "Sheet1!A1:D20",
     });
 
-    console.log(getRows.data.values.map(e => {
-        console.log(e);
+    const realEstateData = getRows.data.values;
+
+    const realEstatePrices = realEstateData.map(element => ({
+        price: parseInt(element[2].split(' ').join('')), link: element[3]
     }));
+
+    realEstatePrices.shift();
+    return realEstatePrices;
+
 }
 
-getServerSideProps();
+export default readFromGoogleSheets();

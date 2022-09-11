@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-async function run(url, controlPrice) {
+async function runScraper(url, controlPrice) {
     const browser = await puppeteer.launch({
         headless: false,
         ignoreHTTPSErrors: true,
@@ -18,14 +18,15 @@ async function run(url, controlPrice) {
         const rePrice = title.replace(/\s+/g, '');
         const finalPrice = rePrice.replace('€', '')
 
-        console.log(finalPrice);
-
-        if (parseInt(finalPrice) === parseInt(controlPrice)) {
+        if (parseInt(finalPrice) === controlPrice) {
             console.log('sama')
         } else {
-            console.log('Uus')
+            console.log('Uus hind lingil: ' + url)
+
         }
     }
     await page.close();
     await browser.close();
 }
+
+export default runScraper;
