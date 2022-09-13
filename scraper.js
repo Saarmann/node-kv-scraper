@@ -1,4 +1,7 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import puppeteer from 'puppeteer';
+import sendNotificationEmail from './email.js';
 
 async function runScraper(url, controlPrice) {
     const browser = await puppeteer.launch({
@@ -21,8 +24,7 @@ async function runScraper(url, controlPrice) {
         if (parseInt(finalPrice) === controlPrice) {
             console.log('sama')
         } else {
-            console.log('Uus hind lingil: ' + url)
-
+            sendNotificationEmail(process.env.EMAIL, `Uus hind lingil: ${url}`);
         }
     }
     await page.close();

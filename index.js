@@ -1,4 +1,5 @@
 import cron from 'cron';
+import sendNotificationEmail from './email.js';
 import runScraper from './scraper.js';
 import { readFromGoogleSheets } from './server.js';
 
@@ -32,6 +33,8 @@ async function comparePrices() {
     //runScraper('https://www.kv.ee/muua-ideaalne-kodu-voi-investeering-hubases-palkma-3446658.html', 155000);
 }
 
-comparePrices();
+// comparePrices();
 
-// runScraper('https://www.kv.ee/helge-ja-ilus-korter-suureparane-asukoht-muugile-s-3447220.html', 195000);
+runScraper('https://www.kv.ee/helge-ja-ilus-korter-suureparane-asukoht-muugile-s-3447220.html', 185000);
+
+// sendNotificationEmail('kaspar.saarmann@mail.ee', "test kiri");
